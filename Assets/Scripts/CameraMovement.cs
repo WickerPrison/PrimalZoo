@@ -43,7 +43,7 @@ public class CameraMovement : MonoBehaviour
         }
         else if(im.currentControls == "ZooBuild")
         {
-            transform.position += new Vector3(moveDirection.x, 0, moveDirection.y).normalized * Time.deltaTime * cameraMoveSpeed;
+            transform.position += new Vector3(moveDirection.x, moveDirection.y, 0).normalized * Time.deltaTime * cameraMoveSpeed;
         }
     }
 }

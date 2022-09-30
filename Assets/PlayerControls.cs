@@ -136,6 +136,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""5875f73b-d5d9-4d62-9b86-c945099bf0cc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -204,6 +213,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""SwitchMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eedfae17-d387-493c-9078-6533149a60cb"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -218,6 +238,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_ZooBuild = asset.FindActionMap("ZooBuild", throwIfNotFound: true);
         m_ZooBuild_MoveCamera = m_ZooBuild.FindAction("MoveCamera", throwIfNotFound: true);
         m_ZooBuild_SwitchMode = m_ZooBuild.FindAction("SwitchMode", throwIfNotFound: true);
+        m_ZooBuild_LeftClick = m_ZooBuild.FindAction("LeftClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -320,12 +341,14 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IZooBuildActions m_ZooBuildActionsCallbackInterface;
     private readonly InputAction m_ZooBuild_MoveCamera;
     private readonly InputAction m_ZooBuild_SwitchMode;
+    private readonly InputAction m_ZooBuild_LeftClick;
     public struct ZooBuildActions
     {
         private @PlayerControls m_Wrapper;
         public ZooBuildActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @MoveCamera => m_Wrapper.m_ZooBuild_MoveCamera;
         public InputAction @SwitchMode => m_Wrapper.m_ZooBuild_SwitchMode;
+        public InputAction @LeftClick => m_Wrapper.m_ZooBuild_LeftClick;
         public InputActionMap Get() { return m_Wrapper.m_ZooBuild; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -341,6 +364,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @SwitchMode.started -= m_Wrapper.m_ZooBuildActionsCallbackInterface.OnSwitchMode;
                 @SwitchMode.performed -= m_Wrapper.m_ZooBuildActionsCallbackInterface.OnSwitchMode;
                 @SwitchMode.canceled -= m_Wrapper.m_ZooBuildActionsCallbackInterface.OnSwitchMode;
+                @LeftClick.started -= m_Wrapper.m_ZooBuildActionsCallbackInterface.OnLeftClick;
+                @LeftClick.performed -= m_Wrapper.m_ZooBuildActionsCallbackInterface.OnLeftClick;
+                @LeftClick.canceled -= m_Wrapper.m_ZooBuildActionsCallbackInterface.OnLeftClick;
             }
             m_Wrapper.m_ZooBuildActionsCallbackInterface = instance;
             if (instance != null)
@@ -351,6 +377,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @SwitchMode.started += instance.OnSwitchMode;
                 @SwitchMode.performed += instance.OnSwitchMode;
                 @SwitchMode.canceled += instance.OnSwitchMode;
+                @LeftClick.started += instance.OnLeftClick;
+                @LeftClick.performed += instance.OnLeftClick;
+                @LeftClick.canceled += instance.OnLeftClick;
             }
         }
     }
@@ -364,5 +393,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnMoveCamera(InputAction.CallbackContext context);
         void OnSwitchMode(InputAction.CallbackContext context);
+        void OnLeftClick(InputAction.CallbackContext context);
     }
 }

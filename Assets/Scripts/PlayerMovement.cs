@@ -18,6 +18,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += new Vector3(moveDirection.x, 0, moveDirection.y).normalized * Time.deltaTime * 10;
+        transform.position += new Vector3(moveDirection.x, moveDirection.y, 0).normalized * Time.deltaTime * 10;
     }
 }

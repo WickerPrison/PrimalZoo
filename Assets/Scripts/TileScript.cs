@@ -8,20 +8,9 @@ public class TileScript : MonoBehaviour
     [SerializeField] List<Sprite> sprites;
     [SerializeField] SpriteRenderer spriteRenderer;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     public void OnSpawn()
     {
         spriteRenderer.sprite = sprites[tileType];
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

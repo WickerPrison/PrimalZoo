@@ -12,6 +12,10 @@ public class InputManager : MonoBehaviour
         controls = new PlayerControls();
         controls.ZooPlayer.SwitchMode.performed += ctx => ZooBuild();
         controls.ZooBuild.SwitchMode.performed += ctx => ZooPlayer();
+    }
+
+    private void Start()
+    {
         ZooPlayer();
     }
 
@@ -19,6 +23,7 @@ public class InputManager : MonoBehaviour
     {
         currentControls = "ZooPlayer";
         controls.Disable();
+        controls.ZooBuild.Disable();
         controls.ZooPlayer.Enable();
     }
 
@@ -26,6 +31,7 @@ public class InputManager : MonoBehaviour
     {
         currentControls = "ZooBuild";
         controls.Disable();
+        controls.ZooPlayer.Disable();
         controls.ZooBuild.Enable();
     }
 
