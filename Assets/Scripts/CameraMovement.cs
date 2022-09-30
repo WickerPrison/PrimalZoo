@@ -31,7 +31,15 @@ public class CameraMovement : MonoBehaviour
         if (im.currentControls == "ZooPlayer")
         {
             Vector3 moveDirection = movePoint.transform.position - transform.position;
-            transform.position += moveDirection.normalized * cameraFollowSpeed * Time.deltaTime;
+            moveDirection = moveDirection.normalized * cameraFollowSpeed * Time.deltaTime;
+            if(Vector3.Distance(movePoint.transform.position, transform.position) <= moveDirection.magnitude)
+            {
+                transform.position = movePoint.transform.position;
+            }
+            else
+            {
+                transform.position += moveDirection.normalized * cameraFollowSpeed * Time.deltaTime;
+            }
         }
         else if(im.currentControls == "ZooBuild")
         {
