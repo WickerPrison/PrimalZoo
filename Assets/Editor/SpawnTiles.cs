@@ -121,6 +121,7 @@ public class SpawnTiles : EditorWindow
             {
                 TileScript tile = Instantiate(tilePrefab).GetComponent<TileScript>();
                 tile.tileType = gridArray[row, column];
+                tile.gridPosition = new Vector2(column, row);
                 tile.OnSpawn();
                 tile.transform.position = new Vector3(row - Mathf.Floor(gridArray.GetLength(0) / 2), column - Mathf.Floor(gridArray.GetLength(1) / 2), 2);
                 tile.transform.parent = tileHolder.transform;

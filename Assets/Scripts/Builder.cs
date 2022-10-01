@@ -35,23 +35,34 @@ public class Builder : MonoBehaviour
             case "Building":
                 Instantiate(buildingPrefab);
                 break;
+            case "none":
+                TileScript tileScript = GetClickedOnTile();
+                Debug.Log(tileScript.gridPosition);
+                break;
         }
     }
 
-    void ChangeTileType(int newtype)
+    TileScript GetClickedOnTile()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-     
+
         if (hit.collider != null)
         {
             if (!hit.transform.gameObject.CompareTag("Tile"))
             {
-                return;
+                return null;
             }
             TileScript tileScript = hit.transform.gameObject.GetComponent<TileScript>();
-            tileScript.tileType = newtype;
-            tileScript.OnSpawn();
+            return tileScript;
         }
+        return null;
+    }
+
+    void ChangeTileType(int newtype)
+    {
+        TileScript tileScript = GetClickedOnTile();
+        tileScript.tileType = newtype;
+        tileScript.OnSpawn();
     }
 }
