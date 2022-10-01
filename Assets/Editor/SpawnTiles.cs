@@ -16,6 +16,7 @@ public class SpawnTiles : EditorWindow
     bool useWater = true;
     List<bool> allTiles = new List<bool>();
     List<int> allowedTiles = new List<int>();
+    TextAsset levelCSV;
 
     [MenuItem("Tools/Spawn Tiles")]
     public static void ShowWindow()
@@ -26,6 +27,7 @@ public class SpawnTiles : EditorWindow
     private void OnGUI()
     {
         tilePrefab = EditorGUILayout.ObjectField("Tile Prefab", tilePrefab, typeof(GameObject), false) as GameObject;
+        levelCSV = EditorGUILayout.ObjectField("Level CSV", levelCSV, typeof(TextAsset), false) as TextAsset;
         rowsNum = EditorGUILayout.IntField("Number of Rows", rowsNum);
         columnsNum = EditorGUILayout.IntField("Number of Columns", columnsNum);
 
@@ -37,21 +39,44 @@ public class SpawnTiles : EditorWindow
         if(GUILayout.Button("Spawn Tiles"))
         {
             ChooseTileTypes();
-            GenerateGrid();
+            if(levelCSV == null)
+            {
+                GenerateGrid();
+            }
+            else
+            {
+                ReadCSV();
+            }
             SpawnTheTiles();
         }
     }
 
     void GenerateGrid()
     {
-        gridArray = new int[rowsNum, columnsNum];
+        gridArray = new int[columnsNum, rowsNum];
 
-        for (int row = 0; row < rowsNum; row++)
+        for (int column = 0; column < columnsNum; column++)
         {
-            for (int column = 0; column < columnsNum; column++)
+            for (int row = 0; row < rowsNum; row++)
             {
                 int index = Random.Range(0, allowedTiles.Count);
-                gridArray[row, column] = allowedTiles[index];
+                gridArray[column, row] = allowedTiles[index];
+            }
+        }
+    }
+
+    void ReadCSV()
+    {
+        string[] levelLayout = levelCSV.text.Split('\n');
+        rowsNum = levelLayout.Length - 1;
+        columnsNum = levelLayout[0].Split('|').Length;
+        gridArray = new int[columnsNum, rowsNum];
+        for(int row = 0; row < rowsNum; row++)
+        {
+            string[] line = levelLayout[row].Split('|');
+            for(int column = 0; column < line.Length; column++)
+            {
+                gridArray[column, rowsNum - 1 - row] = int.Parse(line[column]);
             }
         }
     }
@@ -90,14 +115,14 @@ public class SpawnTiles : EditorWindow
             DestroyImmediate(child.gameObject);
         }
 
-        for (int row = 0; row < rowsNum; row++)
+        for (int row = 0; row < gridArray.GetLength(0); row++)
         {
-            for (int column = 0; column < columnsNum; column++)
+            for (int column = 0; column < gridArray.GetLength(1); column++)
             {
                 TileScript tile = Instantiate(tilePrefab).GetComponent<TileScript>();
                 tile.tileType = gridArray[row, column];
                 tile.OnSpawn();
-                tile.transform.position = new Vector3(row - Mathf.Floor(rowsNum / 2), column - Mathf.Floor(columnsNum / 2), 2);
+                tile.transform.position = new Vector3(row - Mathf.Floor(gridArray.GetLength(0) / 2), column - Mathf.Floor(gridArray.GetLength(1) / 2), 2);
                 tile.transform.parent = tileHolder.transform;
             }
         }
