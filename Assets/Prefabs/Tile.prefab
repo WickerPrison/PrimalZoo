@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7098929676562164389}
   - component: {fileID: 1176869261259768392}
   - component: {fileID: 804338269950722428}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Tile
   m_TagString: Tile
   m_Icon: {fileID: 0}
@@ -99,6 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileType: 0
+  occupied: 0
+  gridPosition: {x: 0, y: 0}
   sprites:
   - {fileID: 21300000, guid: b1c5706b8a248fb4aa08fb8483d93376, type: 3}
   - {fileID: 21300000, guid: 160dd85eaf9cfb3459192f0436ef7eb4, type: 3}

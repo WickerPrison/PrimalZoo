@@ -9,6 +9,7 @@ public class Builder : MonoBehaviour
     InputManager im;
     public string currentTool = "none";
     bool isClicked;
+    LayerMask layerMask;
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +17,8 @@ public class Builder : MonoBehaviour
         im = GameObject.FindGameObjectWithTag("GameManager").GetComponent<InputManager>();
         im.controls.ZooBuild.LeftClick.performed += ctx => LeftClick();
         im.controls.ZooBuild.LeftClick.canceled += ctx => isClicked = false;
+
+        layerMask = LayerMask.GetMask("Tiles");
     }
 
     private void Update()
@@ -33,7 +36,9 @@ public class Builder : MonoBehaviour
         switch (currentTool)
         {
             case "Building":
-                Instantiate(buildingPrefab);
+                TileScript tile = GetClickedOnTile();
+                PlaceBuilding placeBuilding = Instantiate(buildingPrefab).GetComponent<PlaceBuilding>();
+                placeBuilding.GetPlaced(tile);
                 break;
             case "none":
                 TileScript tileScript = GetClickedOnTile();
@@ -45,14 +50,10 @@ public class Builder : MonoBehaviour
     TileScript GetClickedOnTile()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 10, layerMask);
 
         if (hit.collider != null)
         {
-            if (!hit.transform.gameObject.CompareTag("Tile"))
-            {
-                return null;
-            }
             TileScript tileScript = hit.transform.gameObject.GetComponent<TileScript>();
             return tileScript;
         }

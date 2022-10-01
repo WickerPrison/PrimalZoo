@@ -9,10 +9,15 @@ public class TileScript : MonoBehaviour
     public Vector2 gridPosition;
     [SerializeField] List<Sprite> sprites;
     [SerializeField] SpriteRenderer spriteRenderer;
+    Collider2D tileCollider;
 
     public void OnSpawn()
     {
         spriteRenderer.sprite = sprites[tileType];
     }
 
+    public void BecomeOccupied()
+    {
+        tileCollider.isTrigger = false;
+    }
 }
