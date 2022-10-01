@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    [SerializeField] GameObject buildUI;
+    [SerializeField] GameObject playerUI;
+    Builder builder;
     public PlayerControls controls;
     public string currentControls;
 
@@ -16,6 +19,7 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
+        builder = GameObject.FindGameObjectWithTag("Builder").GetComponent<Builder>();
         ZooPlayer();
     }
 
@@ -25,6 +29,8 @@ public class InputManager : MonoBehaviour
         controls.Disable();
         controls.ZooBuild.Disable();
         controls.ZooPlayer.Enable();
+        playerUI.SetActive(true);
+        buildUI.SetActive(false);
     }
 
     public void ZooBuild()
@@ -33,6 +39,9 @@ public class InputManager : MonoBehaviour
         controls.Disable();
         controls.ZooPlayer.Disable();
         controls.ZooBuild.Enable();
+        buildUI.SetActive(true);
+        playerUI.SetActive(false);
+        builder.currentTool = "none";
     }
 
     private void OnEnable()
