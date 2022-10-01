@@ -19,6 +19,7 @@ public class BuildButtons : MonoBehaviour
         if (buildOptions.activeSelf)
         {
             buildOptions.SetActive(false);
+            builder.currentTool = "none";
         }
         else
         {

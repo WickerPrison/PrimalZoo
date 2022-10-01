@@ -70,13 +70,13 @@ public class SpawnTiles : EditorWindow
         string[] levelLayout = levelCSV.text.Split('\n');
         rowsNum = levelLayout.Length - 1;
         columnsNum = levelLayout[0].Split('|').Length;
-        gridArray = new int[columnsNum, rowsNum];
+        gridArray = new int[rowsNum, columnsNum];
         for(int row = 0; row < rowsNum; row++)
         {
             string[] line = levelLayout[row].Split('|');
             for(int column = 0; column < line.Length; column++)
             {
-                gridArray[column, rowsNum - 1 - row] = int.Parse(line[column]);
+                gridArray[row, column] = int.Parse(line[column]);
             }
         }
     }
@@ -109,6 +109,8 @@ public class SpawnTiles : EditorWindow
         tileHolder = new GameObject();
         tileHolder.name = "Tile Holder";
         tileHolder.tag = "TileHolder";
+        TileHolder tileHolderScript = tileHolder.AddComponent<TileHolder>();
+        tileHolderScript.tileArray = new TileScript[gridArray.GetLength(0), gridArray.GetLength(1)];
 
         foreach (Transform child in tileHolder.transform)
         {
@@ -121,10 +123,11 @@ public class SpawnTiles : EditorWindow
             {
                 TileScript tile = Instantiate(tilePrefab).GetComponent<TileScript>();
                 tile.tileType = gridArray[row, column];
-                tile.gridPosition = new Vector2(column, row);
+                tile.gridPosition = new Vector2(row, column);
                 tile.OnSpawn();
-                tile.transform.position = new Vector3(row - Mathf.Floor(gridArray.GetLength(0) / 2), column - Mathf.Floor(gridArray.GetLength(1) / 2), 2);
+                tile.transform.position = new Vector3(column - Mathf.Floor(gridArray.GetLength(1) / 2), rowsNum -1 - row - Mathf.Floor(gridArray.GetLength(0) / 2), 2);
                 tile.transform.parent = tileHolder.transform;
+                tileHolderScript.tileArray[row, column] = tile;
             }
         }
     }
