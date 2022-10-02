@@ -10,6 +10,19 @@ public class TileScript : MonoBehaviour
     [SerializeField] List<Sprite> sprites;
     [SerializeField] SpriteRenderer spriteRenderer;
     Collider2D tileCollider;
+    TileHolder tileHolder;
+
+    private void Start()
+    {
+        tileCollider = GetComponent<Collider2D>();
+        tileHolder = GetComponentInParent<TileHolder>();
+        tileHolder.tileArray[(int)gridPosition.x, (int)gridPosition.y] = this;
+
+        if (tileType == 2)
+        {
+            BecomeOccupied();
+        }
+    }
 
     public void OnSpawn()
     {

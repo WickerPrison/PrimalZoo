@@ -110,7 +110,8 @@ public class SpawnTiles : EditorWindow
         tileHolder.name = "Tile Holder";
         tileHolder.tag = "TileHolder";
         TileHolder tileHolderScript = tileHolder.AddComponent<TileHolder>();
-        tileHolderScript.tileArray = new TileScript[gridArray.GetLength(0), gridArray.GetLength(1)];
+        tileHolderScript.rows = gridArray.GetLength(0);
+        tileHolderScript.columns = gridArray.GetLength(1);
 
         foreach (Transform child in tileHolder.transform)
         {
@@ -127,7 +128,6 @@ public class SpawnTiles : EditorWindow
                 tile.OnSpawn();
                 tile.transform.position = new Vector3(column - Mathf.Floor(gridArray.GetLength(1) / 2), rowsNum -1 - row - Mathf.Floor(gridArray.GetLength(0) / 2), 2);
                 tile.transform.parent = tileHolder.transform;
-                tileHolderScript.tileArray[row, column] = tile;
             }
         }
     }

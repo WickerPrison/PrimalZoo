@@ -24,26 +24,32 @@ public class CameraMovement : MonoBehaviour
         movePoint.parent = null;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         movePoint.transform.position = player.position + offset;
         if (im.currentControls == "ZooPlayer")
         {
             Vector3 moveDirection = movePoint.transform.position - transform.position;
             moveDirection = moveDirection.normalized * cameraFollowSpeed * Time.deltaTime;
-            if(Vector3.Distance(movePoint.transform.position, transform.position) <= moveDirection.magnitude)
+
+            if (Vector3.Distance(movePoint.transform.position, transform.position) <= moveDirection.magnitude)
             {
                 transform.position = movePoint.transform.position;
             }
             else
             {
-                transform.position += moveDirection.normalized * cameraFollowSpeed * Time.deltaTime;
+                transform.position += moveDirection.normalized * cameraFollowSpeed * Time.fixedDeltaTime;
             }
         }
-        else if(im.currentControls == "ZooBuild")
+        else if (im.currentControls == "ZooBuild")
         {
-            transform.position += new Vector3(moveDirection.x, moveDirection.y, 0).normalized * Time.deltaTime * cameraMoveSpeed;
+            transform.position += new Vector3(moveDirection.x, moveDirection.y, 0).normalized * Time.fixedDeltaTime * cameraMoveSpeed;
         }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+       
     }
 }

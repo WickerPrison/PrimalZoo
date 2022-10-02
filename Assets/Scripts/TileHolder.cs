@@ -5,15 +5,11 @@ using UnityEngine;
 public class TileHolder : MonoBehaviour
 {
     public TileScript[,] tileArray;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int rows;
+    public int columns;
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        tileArray = new TileScript[rows, columns];
     }
 }
