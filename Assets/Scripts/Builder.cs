@@ -64,6 +64,6 @@ public class Builder : MonoBehaviour
     {
         TileScript tileScript = GetClickedOnTile();
         tileScript.tileType = newtype;
-        tileScript.OnSpawn();
+        tileScript.UpdateTile();
     }
 }
