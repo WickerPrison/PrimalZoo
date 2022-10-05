@@ -9,6 +9,8 @@ public class PlaceBuilding : MonoBehaviour
     [SerializeField] int height;
     SpriteRenderer spriteRenderer;
     TileHolder tileHolder;
+    List<TileScript> myTiles = new List<TileScript>();
+    List<TileScript> adjacencyList = new List<TileScript>();
 
     private void Awake()
     {
@@ -37,7 +39,20 @@ public class PlaceBuilding : MonoBehaviour
 
         for(int column = minCol;column <= maxCol; column++)
         {
+            myTiles.Add(tileHolder.tileArray[(int)centerTile.gridPosition.x, column]);
             tileHolder.tileArray[(int)centerTile.gridPosition.x, column].BecomeOccupied();
+        }
+
+        foreach(TileScript tile in myTiles)
+        {
+            foreach(TileScript adjacentTile in tile.adjacencyList)
+            {
+                if (!myTiles.Contains(adjacentTile))
+                {
+                    adjacencyList.Add(adjacentTile);
+                    adjacentTile.hasAttraction = true;
+                }
+            }
         }
     }
 }

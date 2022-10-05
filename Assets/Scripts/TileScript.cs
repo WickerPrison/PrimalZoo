@@ -12,6 +12,7 @@ public class TileScript : MonoBehaviour
     [SerializeField] SpriteRenderer spriteRenderer;
     Collider2D tileCollider;
     TileHolder tileHolder;
+    public bool hasAttraction = false;
 
     private void Start()
     {
@@ -35,6 +36,7 @@ public class TileScript : MonoBehaviour
     public void BecomeOccupied()
     {
         tileCollider.isTrigger = false;
+        occupied = true;
     }
 
     IEnumerator BuildAdjacencyList()

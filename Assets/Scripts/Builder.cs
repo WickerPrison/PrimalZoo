@@ -18,7 +18,7 @@ public class Builder : MonoBehaviour
         im.controls.ZooBuild.LeftClick.performed += ctx => LeftClick();
         im.controls.ZooBuild.LeftClick.canceled += ctx => isClicked = false;
 
-        layerMask = LayerMask.GetMask("Tiles");
+        layerMask = LayerMask.GetMask("Tiles", "UI");
     }
 
     private void Update()
@@ -39,10 +39,6 @@ public class Builder : MonoBehaviour
                 TileScript tile = GetClickedOnTile();
                 PlaceBuilding placeBuilding = Instantiate(buildingPrefab).GetComponent<PlaceBuilding>();
                 placeBuilding.GetPlaced(tile);
-                break;
-            case "none":
-                TileScript tileScript = GetClickedOnTile();
-                Debug.Log(tileScript.gridPosition);
                 break;
         }
     }
