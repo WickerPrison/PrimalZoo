@@ -74,7 +74,7 @@ public class CustomerMovement : MonoBehaviour
 
         if (possibleTiles.Count != 0)
         {
-            int randNum = Random.Range(0, possibleTiles.Count - 1);
+            int randNum = Random.Range(0, possibleTiles.Count);
             nextTile = possibleTiles[randNum];
             moving = true;
         }
