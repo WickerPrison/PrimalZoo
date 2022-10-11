@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     InputManager im;
     Vector2 moveDirection;
     LayerMask layerMask;
+    [SerializeField] Animator frontAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //transform.position += new Vector3(moveDirection.x, moveDirection.y, 0).normalized * Time.deltaTime * 10;
         rb.velocity = new Vector3(moveDirection.x, moveDirection.y, 0) * speed;
+        frontAnimator.SetFloat("Velocity", rb.velocity.magnitude);
         GetCurrentTile();
         sortingGroup.sortingOrder = (int)currentTile.gridPosition.x;
     }
