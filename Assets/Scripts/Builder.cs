@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class Builder : MonoBehaviour
 {
     [SerializeField] GameObject buildingPrefab;
+    [SerializeField] GameObject fencePrefab;
     InputManager im;
     public string currentTool = "none";
     bool isClicked;
@@ -33,12 +34,16 @@ public class Builder : MonoBehaviour
     {
         isClicked = true;
 
+        TileScript tile = GetClickedOnTile();
         switch (currentTool)
         {
             case "Building":
-                TileScript tile = GetClickedOnTile();
                 PlaceBuilding placeBuilding = Instantiate(buildingPrefab).GetComponent<PlaceBuilding>();
                 placeBuilding.GetPlaced(tile);
+                break;
+            case "Fence":
+                FenceScript fence = Instantiate(fencePrefab).GetComponent<FenceScript>();
+                fence.PlaceFence(tile);
                 break;
         }
     }

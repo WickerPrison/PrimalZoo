@@ -2,42 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CustomerMovement : MonoBehaviour
+public class Dinosaur : MonoBehaviour
 {
     TileScript previousTile;
-    TileScript currentTile;
     TileScript nextTile;
     List<TileScript> possibleTiles = new List<TileScript>();
-    bool moving = false;
-    float moveSpeed = 1;
-    bool viewingAttraction = false;
+    bool moving;
+    TileScript currentTile;
     MovableUnit movableUnit;
+    float moveSpeed = 1;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         movableUnit = GetComponent<MovableUnit>();
-        currentTile = movableUnit.GetCurrentTile();
+        currentTile = movableUnit.GetCurrentTile(); 
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (viewingAttraction)
-        {
-            return;
-        }
+        Graze();
+    }
 
+    public void Graze()
+    {
         if (!moving)
         {
-            if (currentTile.hasAttraction)
-            {
-                StartCoroutine(ViewAttraction());
-            }
-            else
-            {
-                ChooseNextTile();
-            }
+            ChooseNextTile();
         }
         else
         {
@@ -52,21 +42,12 @@ public class CustomerMovement : MonoBehaviour
         }
     }
 
-    IEnumerator ViewAttraction()
-    {
-        viewingAttraction = true;
-        float viewTime = Random.Range(3, 10);
-        yield return new WaitForSeconds(viewTime);
-        viewingAttraction = false;
-        ChooseNextTile();
-    }
-
     void ChooseNextTile()
     {
         possibleTiles.Clear();
         foreach (TileScript tile in currentTile.adjacencyList)
         {
-            if (tile.tileType == 0 && tile != previousTile && !tile.occupied)
+            if (tile.tileType == 1 && tile != previousTile && !tile.occupied)
             {
                 possibleTiles.Add(tile);
             }

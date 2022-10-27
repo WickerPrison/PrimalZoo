@@ -37,6 +37,11 @@ public class BuildButtons : MonoBehaviour
         builder.currentTool = "Path";
     }
 
+    public void Fence()
+    {
+        builder.currentTool = "Fence";
+    }
+
     private void OnEnable()
     {
         buildOptions.SetActive(false);
